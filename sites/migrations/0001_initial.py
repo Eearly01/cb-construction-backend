@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             name='Site',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=32)),
-                ('age', models.IntegerField()),
+                ('job', models.CharField(max_length=32)),
+                ('footage', models.IntegerField()),
             ],
         ),
     ]
