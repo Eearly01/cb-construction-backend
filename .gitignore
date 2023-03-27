@@ -45,7 +45,7 @@ jspm_packages/
 .env
 .venv
 env/
-venv/
+my_env/
 ENV/
 
 # TypeScript v1 declaration files
