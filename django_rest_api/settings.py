@@ -33,8 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sites',
-        'USER': '',
-        'PASSWORD': '',
+        'USER': 'bailey',
+        'PASSWORD': 'Bojangles60',
         'HOST': 'localhost'
     }
 }
@@ -131,10 +129,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
