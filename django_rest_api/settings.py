@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'django_rest_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_api',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'sites',
+        'USER': 'bailey',
+        'PASSWORD': 'Bojangles60',
         'HOST': 'localhost'
     }
 }
