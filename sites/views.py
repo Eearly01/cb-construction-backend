@@ -2,9 +2,11 @@ from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializers import SiteSerializer, UserSerializer
-from .models import Site, User
+from rest_framework.authtoken.models import Token
+from .serializers import SiteSerializer, RegistrationSerializer, AccountPropertiesSerializer
+from .models import Site, Account
 # Create your views here.
 
 class MyView(APIView):
@@ -21,12 +23,46 @@ class SiteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Site.objects.all().order_by('id')
     serializer_class = SiteSerializer
 
-def register_user(request):
-    serializer = UserSerializer(data=request.data)
+@api_view(['POST',])
+def registration_view(request):
+    
+    if request.method == 'POST':
+        serializer = RegistrationSerializer(data=request.data)
+        data={}
+        if serializer.is_valid():
+            account = serializer.save()
+            data['response'] = "successfully registered a new user"
+            data['email'] = account.email
+            data['username'] = account.username
+            token = Token.objects.get(user=account).key
+            data['token'] = token
+        else:
+            data = serializer.errors
+        return Response(data)
+
+
+@api_view(['GET',])
+@permission_classes((IsAuthenticated))
+def account_properites_view(request):
+    try:
+        account = request.user
+    except Account.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = AccountPropertiesSerializer(account)
+    Response(serializer.data)
+
+@api_view(['GET',])
+@permission_classes((IsAuthenticated))
+def update_account_view(request):
+    try:
+        account = request.user
+    except Account.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = AccountPropertiesSerializer(account, data=request.data)
+    data ={}
     if serializer.is_valid():
-        user = User.objects.create_user(username=serializer.validated_data['username'],
-            email=serializer.validated_data['email'],
-            password=serializer.validated_data['password'])
-        user.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        data['response'] = "Account update success"
+        return Response(data=data)
+    Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
