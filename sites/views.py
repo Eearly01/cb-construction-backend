@@ -3,10 +3,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import SiteSerializer, RegistrationSerializer, AccountPropertiesSerializer
 from .models import Site, Account
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 # Create your views here.
 
 class MyView(APIView):
@@ -22,6 +25,9 @@ class SiteList(generics.ListCreateAPIView):
 class SiteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Site.objects.all().order_by('id')
     serializer_class = SiteSerializer
+
+def csrf_token(request):
+    return JsonResponse({'csrfToken': get_token(request)})
 
 @api_view(['POST',])
 def registration_view(request):
@@ -50,6 +56,7 @@ def account_properites_view(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = AccountPropertiesSerializer(account)
     Response(serializer.data)
+
 
 @api_view(['GET',])
 @permission_classes((IsAuthenticated))
