@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_!)eha14s50#@co)x=buia#aoo7l5eqd&zszjm7c0duzn9i2f8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://cb-construction-backend.onrender.com']
 
 
 

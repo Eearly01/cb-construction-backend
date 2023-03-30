@@ -2,14 +2,15 @@ from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 from rest_framework.decorators import api_view, permission_classes
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import SiteSerializer, RegistrationSerializer, AccountPropertiesSerializer
 from .models import Site, Account
-from django.http import JsonResponse
-from django.middleware.csrf import get_token
+
 # Create your views here.
 
 class MyView(APIView):
