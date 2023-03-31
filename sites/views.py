@@ -50,7 +50,7 @@ def registration_view(request):
 
 @api_view(['GET',])
 @permission_classes((IsAuthenticated))
-def account_properites_view(request):
+def account_properties_view(request):
     try:
         account = request.user
     except Account.DoesNotExist:
